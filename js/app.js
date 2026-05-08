@@ -9,7 +9,7 @@ const initialAnimals = [
     status: "已绝育",
     features: "亲人, 贪吃",
     color: "cat",
-    image: "cat1.png"
+    image: "assets/images/cat1.png"
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const initialAnimals = [
     status: "健康",
     features: "安静, 怕生",
     color: "dog",
-    image: "dog1.png"
+    image: "assets/images/dog1.png"
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const initialAnimals = [
     status: "未绝育",
     features: "警惕, 爱晒太阳",
     color: "cat",
-    image: "cat1.png"
+    image: "assets/images/cat1.png"
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const initialAnimals = [
     status: "待观察",
     features: "活泼, 亲人",
     color: "dog",
-    image: "dog2.png"
+    image: "assets/images/dog2.png"
   }
 ];
 
@@ -83,7 +83,7 @@ function normalizeAnimals(savedAnimals) {
     const preset = initialAnimals.find((item) => item.name === animal.name);
     return {
       ...animal,
-      image: animal.image || preset?.image || fallbackImage(animal)
+      image: normalizeImagePath(animal.image || preset?.image || fallbackImage(animal))
     };
   });
 
@@ -94,6 +94,14 @@ function normalizeAnimals(savedAnimals) {
   });
 
   return enriched;
+}
+
+function normalizeImagePath(image) {
+  if (!image) {
+    return "";
+  }
+
+  return image.includes("/") ? image : `assets/images/${image}`;
 }
 
 function saveAnimals() {
@@ -160,7 +168,7 @@ function renderAnimalCard(animal) {
 }
 
 function fallbackImage(animal) {
-  return animal.species === "狗" ? "dog2.png" : "cat1.png";
+  return animal.species === "狗" ? "assets/images/dog2.png" : "assets/images/cat1.png";
 }
 
 function renderAnimals() {
@@ -284,7 +292,7 @@ function showNewMemberForm() {
       status: "待审核",
       features: formData.get("features").trim() || "新建档案",
       color: species === "狗" ? "dog" : "cat",
-      image: species === "狗" ? "dog2.png" : "cat1.png"
+      image: species === "狗" ? "assets/images/dog2.png" : "assets/images/cat1.png"
     };
 
     animalList = [newAnimal, ...animalList];

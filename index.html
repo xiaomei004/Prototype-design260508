@@ -76,11 +76,18 @@
       </section>
 
       <section class="page" id="camera-page" data-title="AI 随手拍">
+        <div class="process-list" aria-label="AI 识别流程">
+          <div class="active" data-step="1"><span>1</span>上传图片</div>
+          <div data-step="2"><span>2</span>特征提取</div>
+          <div data-step="3"><span>3</span>档案匹配</div>
+        </div>
+
         <div class="camera-stage" id="camera-stage">
           <button class="upload-zone" id="start-scan" type="button">
             <span class="camera-glyph"></span>
             <strong>点击拍照 / 上传</strong>
             <p>模拟识别校园中的猫狗，并匹配已有数字档案</p>
+            <span class="upload-cta">选择图片</span>
           </button>
 
           <div class="scan-preview hidden" id="scan-preview">
@@ -99,45 +106,44 @@
             </div>
           </div>
         </div>
-
-        <div class="process-list">
-          <div><span>1</span>上传图片</div>
-          <div><span>2</span>特征提取</div>
-          <div><span>3</span>档案匹配</div>
-        </div>
       </section>
 
       <section class="page" id="album-page" data-title="校园图鉴">
-        <div class="toolbar">
-          <label class="search-box">
-            <span></span>
-            <input id="search-input" type="search" placeholder="搜索昵称、位置或标签">
-          </label>
-          <div class="segmented" role="group" aria-label="动物种类筛选">
-            <button class="active" type="button" data-filter="全部">全部</button>
-            <button type="button" data-filter="猫">猫</button>
-            <button type="button" data-filter="狗">狗</button>
-          </div>
-        </div>
+        <div class="album-layout">
+          <aside class="album-sidebar">
+            <div class="toolbar">
+              <label class="search-box">
+                <span></span>
+                <input id="search-input" type="search" placeholder="搜索昵称、位置或标签">
+              </label>
+              <div class="segmented" role="group" aria-label="动物种类筛选">
+                <button class="active" type="button" data-filter="全部">全部</button>
+                <button type="button" data-filter="猫">猫</button>
+                <button type="button" data-filter="狗">狗</button>
+              </div>
+            </div>
 
-        <div class="map-panel">
-          <div class="campus-map">
-            <span class="map-pin pin-one">大橘</span>
-            <span class="map-pin pin-two">学霸狗</span>
-            <span class="map-pin pin-three">三花</span>
-          </div>
-          <div>
-            <h2>湖工大活动热区</h2>
-            <p>根据最近打卡位置模拟生成，点击图鉴卡片可用于演示档案查看。</p>
-          </div>
-        </div>
+            <div class="map-panel">
+              <div class="campus-map">
+                <span class="map-pin pin-one">大橘</span>
+                <span class="map-pin pin-two">学霸狗</span>
+                <span class="map-pin pin-three">三花</span>
+                <span class="map-pin pin-four">小黄</span>
+              </div>
+              <div>
+                <h2>湖工大活动热区</h2>
+                <p>根据最近打卡位置模拟生成，点击图鉴卡片可用于演示档案查看。</p>
+              </div>
+            </div>
+          </aside>
 
-        <div class="animal-grid" id="animal-grid"></div>
+          <div class="animal-grid" id="animal-grid"></div>
+        </div>
       </section>
 
       <section class="page" id="profile-page" data-title="我的">
         <div class="profile-card">
-          <div class="avatar large orange">李</div>
+          <div class="profile-photo" aria-label="李同学头像"></div>
           <div>
             <p>动保协会管理员</p>
             <h2>李同学</h2>
@@ -152,9 +158,21 @@
         </div>
 
         <div class="settings-list">
-          <button type="button"><span>志愿足迹</span><i>猫舍巡护、投喂记录</i></button>
-          <button type="button"><span>通知消息</span><i>救助协同与审核提醒</i></button>
-          <button type="button"><span>系统设置</span><i>隐私、定位与消息偏好</i></button>
+          <button type="button">
+            <span class="setting-icon footprint"></span>
+            <span class="setting-copy"><b>志愿足迹</b><i>猫舍巡护、投喂记录</i></span>
+            <span class="setting-arrow"></span>
+          </button>
+          <button type="button">
+            <span class="setting-icon message"></span>
+            <span class="setting-copy"><b>通知消息</b><i>救助协同与审核提醒</i></span>
+            <span class="setting-arrow"></span>
+          </button>
+          <button type="button">
+            <span class="setting-icon gear"></span>
+            <span class="setting-copy"><b>系统设置</b><i>隐私、定位与消息偏好</i></span>
+            <span class="setting-arrow"></span>
+          </button>
         </div>
       </section>
 

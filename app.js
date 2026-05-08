@@ -8,7 +8,8 @@ const initialAnimals = [
     location: "北区食堂",
     status: "已绝育",
     features: "亲人, 贪吃",
-    color: "cat"
+    color: "cat",
+    image: "cat1.png"
   },
   {
     id: 2,
@@ -17,7 +18,8 @@ const initialAnimals = [
     location: "图书馆门口",
     status: "健康",
     features: "安静, 怕生",
-    color: "dog"
+    color: "dog",
+    image: "dog1.png"
   },
   {
     id: 3,
@@ -26,7 +28,18 @@ const initialAnimals = [
     location: "南门草坪",
     status: "未绝育",
     features: "警惕, 爱晒太阳",
-    color: "cat"
+    color: "cat",
+    image: "cat1.png"
+  },
+  {
+    id: 4,
+    name: "小黄",
+    species: "狗",
+    location: "体育馆侧门",
+    status: "待观察",
+    features: "活泼, 亲人",
+    color: "dog",
+    image: "dog2.png"
   }
 ];
 
@@ -46,6 +59,7 @@ const animalCount = document.querySelector("#animal-count");
 const createdCount = document.querySelector("#created-count");
 const startScanButton = document.querySelector("#start-scan");
 const scanPreview = document.querySelector("#scan-preview");
+const processSteps = document.querySelectorAll(".process-list div");
 const modal = document.querySelector("#result-modal");
 const modalContent = document.querySelector("#modal-content");
 const closeModalButton = document.querySelector("#close-modal");
@@ -58,10 +72,28 @@ function loadAnimals() {
 
   try {
     const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) && parsed.length ? parsed : [...initialAnimals];
+    return Array.isArray(parsed) && parsed.length ? normalizeAnimals(parsed) : [...initialAnimals];
   } catch {
     return [...initialAnimals];
   }
+}
+
+function normalizeAnimals(savedAnimals) {
+  const enriched = savedAnimals.map((animal) => {
+    const preset = initialAnimals.find((item) => item.name === animal.name);
+    return {
+      ...animal,
+      image: animal.image || preset?.image || fallbackImage(animal)
+    };
+  });
+
+  initialAnimals.forEach((animal) => {
+    if (!enriched.some((item) => item.name === animal.name)) {
+      enriched.push(animal);
+    }
+  });
+
+  return enriched;
 }
 
 function saveAnimals() {
@@ -112,9 +144,7 @@ function renderAnimalCard(animal) {
 
   return `
     <article class="animal-card">
-      <div class="animal-portrait portrait-${animal.color || (animal.species === "狗" ? "dog" : "cat")}">
-        ${portraitText(animal)}
-      </div>
+      <img class="animal-portrait" src="${animal.image || fallbackImage(animal)}" alt="${animal.name}的档案照片">
       <div class="animal-body">
         <div class="animal-title-row">
           <div>
@@ -127,6 +157,10 @@ function renderAnimalCard(animal) {
       </div>
     </article>
   `;
+}
+
+function fallbackImage(animal) {
+  return animal.species === "狗" ? "dog2.png" : "cat1.png";
 }
 
 function renderAnimals() {
@@ -147,16 +181,27 @@ function renderAnimals() {
 
 function resetScan() {
   clearTimeout(scanTimer);
+  setScanStep(1);
   startScanButton.classList.remove("hidden");
   scanPreview.classList.add("hidden");
 }
 
+function setScanStep(step) {
+  processSteps.forEach((item) => {
+    const itemStep = Number(item.dataset.step);
+    item.classList.toggle("active", itemStep === step);
+    item.classList.toggle("done", itemStep < step);
+  });
+}
+
 function startScan() {
+  setScanStep(2);
   startScanButton.classList.add("hidden");
   scanPreview.classList.remove("hidden");
 
   clearTimeout(scanTimer);
   scanTimer = setTimeout(() => {
+    setScanStep(3);
     Math.random() > 0.5 ? showMatchedResult() : showNewMemberForm();
   }, 2000);
 }
@@ -238,7 +283,8 @@ function showNewMemberForm() {
       location: formData.get("location").trim(),
       status: "待审核",
       features: formData.get("features").trim() || "新建档案",
-      color: species === "狗" ? "dog" : "cat"
+      color: species === "狗" ? "dog" : "cat",
+      image: species === "狗" ? "dog2.png" : "cat1.png"
     };
 
     animalList = [newAnimal, ...animalList];
@@ -263,17 +309,20 @@ function applyDemoMode() {
 
   if (demo === "scan") {
     setActivePage("camera-page");
+    setScanStep(2);
     startScanButton.classList.add("hidden");
     scanPreview.classList.remove("hidden");
   }
 
   if (demo === "matched") {
     setActivePage("camera-page");
+    setScanStep(3);
     showMatchedResult();
   }
 
   if (demo === "new") {
     setActivePage("camera-page");
+    setScanStep(3);
     showNewMemberForm();
   }
 }

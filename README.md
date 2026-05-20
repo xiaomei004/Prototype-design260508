@@ -1,21 +1,27 @@
 # 校园流浪动物管理系统前端原型
 
-这是一个可直接本地打开的静态前端原型，用于展示“发现广场、AI 随手拍、校园图鉴、我的”四个核心页面。
+当前项目前端已整理为 `Vue 3 + Vite` 结构，用于展示“发现广场、AI 随手拍、校园图鉴、我的”四个核心页面，并为后续对接 `Spring Boot + MySQL` 预留扩展空间。
 
 ## 运行方式
 
-直接在浏览器中打开根目录下的 `index.html`。
+进入 `frontend` 目录后运行：
+
+```bash
+npm install
+npm run dev
+```
 
 ## 目录结构
 
 ```text
 .
-├── index.html          # 页面入口
-├── css/
-│   └── styles.css      # 全局样式与响应式布局
-├── js/
-│   └── app.js          # Mock 数据、页面切换与交互逻辑
-├── assets/
-│   └── images/         # 原型使用的图片资源
+├── frontend/
+│   ├── src/
+│   │   ├── views/      # 四个主页面
+│   │   ├── components/ # 公共组件
+│   │   ├── stores/     # Pinia 状态
+│   │   └── assets/     # 样式与图片资源
+│   ├── package.json
+│   └── vite.config.js
 └── docs/               # 需求分析、原型规划与设计说明
 ```
